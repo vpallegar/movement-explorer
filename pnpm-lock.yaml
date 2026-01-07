@@ -18,8 +18,8 @@ importers:
         specifier: ^7.2.2
         version: 7.2.2(@aptos-labs/ts-sdk@5.1.5(got@11.8.6))(@telegram-apps/bridge@1.9.2)(@types/react@19.2.6)(@wallet-standard/core@1.0.3)(aptos@1.22.1(got@11.8.6))(react@19.2.0)
       '@movementlabsxyz/movement-design-system':
-        specifier: github:movementlabsxyz/movement-design-system#shadcn
-        version: git+https://git@github.com:movementlabsxyz/movement-design-system.git#8bb56cb1d2f1c6ffcbad6182a7aa19db935cfcf5(@aptos-labs/ts-sdk@5.1.5(got@11.8.6))(@aptos-labs/wallet-adapter-core@7.8.0(@aptos-labs/ts-sdk@5.1.5(got@11.8.6))(@telegram-apps/bridge@1.9.2)(@wallet-standard/core@1.0.3)(aptos@1.22.1(got@11.8.6)))(@aptos-labs/wallet-adapter-react@7.2.2(@aptos-labs/ts-sdk@5.1.5(got@11.8.6))(@telegram-apps/bridge@1.9.2)(@types/react@19.2.6)(@wallet-standard/core@1.0.3)(aptos@1.22.1(got@11.8.6))(react@19.2.0))(@mizuwallet-sdk/core@1.4.0(@aptos-labs/ts-sdk@5.1.5(got@11.8.6))(@mizuwallet-sdk/protocol@0.0.6)(graphql-request@7.3.4(graphql@16.12.0)))(@mizuwallet-sdk/protocol@0.0.6)(@telegram-apps/bridge@1.9.2)(@types/react-dom@19.2.3(@types/react@19.2.6))(@types/react@19.2.6)(@wallet-standard/core@1.0.3)(aptos@1.22.1(got@11.8.6))(axios@1.13.2)(got@11.8.6)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(tailwindcss@4.1.17)(vite@7.2.4(@types/node@20.19.25)(jiti@2.6.1)(lightningcss@1.30.2))
+        specifier: github:movementlabsxyz/movement-design-system
+        version: https://codeload.github.com/movementlabsxyz/movement-design-system/tar.gz/b9d4fb4b8ad7b4fabc8cfee4eb71494d6cd45828(@aptos-labs/ts-sdk@5.1.5(got@11.8.6))(@aptos-labs/wallet-adapter-core@7.8.0(@aptos-labs/ts-sdk@5.1.5(got@11.8.6))(@telegram-apps/bridge@1.9.2)(@wallet-standard/core@1.0.3)(aptos@1.22.1(got@11.8.6)))(@aptos-labs/wallet-adapter-react@7.2.2(@aptos-labs/ts-sdk@5.1.5(got@11.8.6))(@telegram-apps/bridge@1.9.2)(@types/react@19.2.6)(@wallet-standard/core@1.0.3)(aptos@1.22.1(got@11.8.6))(react@19.2.0))(@mizuwallet-sdk/core@1.4.0(@aptos-labs/ts-sdk@5.1.5(got@11.8.6))(@mizuwallet-sdk/protocol@0.0.6)(graphql-request@7.3.4(graphql@16.12.0)))(@mizuwallet-sdk/protocol@0.0.6)(@telegram-apps/bridge@1.9.2)(@types/react-dom@19.2.3(@types/react@19.2.6))(@types/react@19.2.6)(@wallet-standard/core@1.0.3)(aptos@1.22.1(got@11.8.6))(axios@1.13.2)(got@11.8.6)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(tailwindcss@4.1.17)(vite@7.2.4(@types/node@20.19.25)(jiti@2.6.1)(lightningcss@1.30.2))
       '@radix-ui/react-dialog':
         specifier: ^1.1.15
         version: 1.1.15(@types/react-dom@19.2.3(@types/react@19.2.6))(@types/react@19.2.6)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -708,9 +708,9 @@ packages:
   '@mizuwallet-sdk/protocol@0.0.6':
     resolution: {integrity: sha512-I6ibbdPmPqsqc4JfCfI9qplZ2RcqeUxawyYBNb3TNhibMqQhoVUUaczt9kLuML20ODTvvZW/ja+5S6PXSzWPiw==}
 
-  '@movementlabsxyz/movement-design-system@git+https://git@github.com:movementlabsxyz/movement-design-system.git#8bb56cb1d2f1c6ffcbad6182a7aa19db935cfcf5':
-    resolution: {commit: 8bb56cb1d2f1c6ffcbad6182a7aa19db935cfcf5, repo: git@github.com:movementlabsxyz/movement-design-system.git, type: git}
-    version: 0.1.18
+  '@movementlabsxyz/movement-design-system@https://codeload.github.com/movementlabsxyz/movement-design-system/tar.gz/b9d4fb4b8ad7b4fabc8cfee4eb71494d6cd45828':
+    resolution: {tarball: https://codeload.github.com/movementlabsxyz/movement-design-system/tar.gz/b9d4fb4b8ad7b4fabc8cfee4eb71494d6cd45828}
+    version: 1.0.10
     peerDependencies:
       '@aptos-labs/wallet-adapter-react': ^7.0.4
       react: ^18.0.0 || ^19.0.0
@@ -4461,7 +4461,7 @@ snapshots:
       tweetnacl: 1.0.3
       tweetnacl-util: 0.15.1
 
-  ? '@movementlabsxyz/movement-design-system@git+https://git@github.com:movementlabsxyz/movement-design-system.git#8bb56cb1d2f1c6ffcbad6182a7aa19db935cfcf5(@aptos-labs/ts-sdk@5.1.5(got@11.8.6))(@aptos-labs/wallet-adapter-core@7.8.0(@aptos-labs/ts-sdk@5.1.5(got@11.8.6))(@telegram-apps/bridge@1.9.2)(@wallet-standard/core@1.0.3)(aptos@1.22.1(got@11.8.6)))(@aptos-labs/wallet-adapter-react@7.2.2(@aptos-labs/ts-sdk@5.1.5(got@11.8.6))(@telegram-apps/bridge@1.9.2)(@types/react@19.2.6)(@wallet-standard/core@1.0.3)(aptos@1.22.1(got@11.8.6))(react@19.2.0))(@mizuwallet-sdk/core@1.4.0(@aptos-labs/ts-sdk@5.1.5(got@11.8.6))(@mizuwallet-sdk/protocol@0.0.6)(graphql-request@7.3.4(graphql@16.12.0)))(@mizuwallet-sdk/protocol@0.0.6)(@telegram-apps/bridge@1.9.2)(@types/react-dom@19.2.3(@types/react@19.2.6))(@types/react@19.2.6)(@wallet-standard/core@1.0.3)(aptos@1.22.1(got@11.8.6))(axios@1.13.2)(got@11.8.6)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(tailwindcss@4.1.17)(vite@7.2.4(@types/node@20.19.25)(jiti@2.6.1)(lightningcss@1.30.2))'
+  ? '@movementlabsxyz/movement-design-system@https://codeload.github.com/movementlabsxyz/movement-design-system/tar.gz/b9d4fb4b8ad7b4fabc8cfee4eb71494d6cd45828(@aptos-labs/ts-sdk@5.1.5(got@11.8.6))(@aptos-labs/wallet-adapter-core@7.8.0(@aptos-labs/ts-sdk@5.1.5(got@11.8.6))(@telegram-apps/bridge@1.9.2)(@wallet-standard/core@1.0.3)(aptos@1.22.1(got@11.8.6)))(@aptos-labs/wallet-adapter-react@7.2.2(@aptos-labs/ts-sdk@5.1.5(got@11.8.6))(@telegram-apps/bridge@1.9.2)(@types/react@19.2.6)(@wallet-standard/core@1.0.3)(aptos@1.22.1(got@11.8.6))(react@19.2.0))(@mizuwallet-sdk/core@1.4.0(@aptos-labs/ts-sdk@5.1.5(got@11.8.6))(@mizuwallet-sdk/protocol@0.0.6)(graphql-request@7.3.4(graphql@16.12.0)))(@mizuwallet-sdk/protocol@0.0.6)(@telegram-apps/bridge@1.9.2)(@types/react-dom@19.2.3(@types/react@19.2.6))(@types/react@19.2.6)(@wallet-standard/core@1.0.3)(aptos@1.22.1(got@11.8.6))(axios@1.13.2)(got@11.8.6)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(tailwindcss@4.1.17)(vite@7.2.4(@types/node@20.19.25)(jiti@2.6.1)(lightningcss@1.30.2))'
   : dependencies:
       '@aptos-labs/wallet-adapter-react': 7.2.2(@aptos-labs/ts-sdk@5.1.5(got@11.8.6))(@telegram-apps/bridge@1.9.2)(@types/react@19.2.6)(@wallet-standard/core@1.0.3)(aptos@1.22.1(got@11.8.6))(react@19.2.0)
       '@hookform/resolvers': 5.2.2(react-hook-form@7.66.1(react@19.2.0))

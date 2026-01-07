@@ -2,7 +2,7 @@
  * Movement SDK client wrapper using Aptos SDK for blockchain interactions
  */
 
-import { Aptos, AptosConfig, Network } from '@aptos-labs/ts-sdk';
+import { Aptos, AptosConfig, Network, InputViewFunctionData } from '@aptos-labs/ts-sdk';
 import { NetworkConfig } from '../config';
 
 export class MovementClient {
@@ -88,13 +88,18 @@ export class MovementClient {
   }
 
   // Indexer queries (GraphQL)
-  async queryIndexer<T = unknown>(query: string, variables?: Record<string, unknown>): Promise<T> {
+  async queryIndexer<T extends object = object>(query: string, variables?: Record<string, unknown>): Promise<T> {
     return this.client.queryIndexer<T>({
       query: {
         query,
         variables,
       },
     });
+  }
+
+  // View function
+  async view<T extends unknown[]>(payload: InputViewFunctionData): Promise<T> {
+    return this.client.view<T>({ payload });
   }
 }
 

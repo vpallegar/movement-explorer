@@ -16,9 +16,9 @@ export default function TransactionsPage() {
   const { data: transactions, isLoading } = useTransactions({ limit: 100 });
 
   // Filter transactions based on active filters
-  const filteredTransactions = transactions?.filter((txn: { type?: string; success: boolean }) => {
+  const filteredTransactions = transactions?.filter((txn) => {
     if (filters.type && txn.type !== filters.type) return false;
-    if (filters.success !== undefined && txn.success !== filters.success) return false;
+    if (filters.success !== undefined && 'success' in txn && txn.success !== filters.success) return false;
     return true;
   });
 
@@ -64,16 +64,13 @@ export default function TransactionsPage() {
             </div>
           ) : filteredTransactions && filteredTransactions.length > 0 ? (
             <div className="divide-y divide-border/30">
-              {filteredTransactions.map((txn: {
-                version: number;
-                hash: string;
-                type?: string;
-                success: boolean;
-                timestamp: number;
-              }) => {
+              {filteredTransactions.map((txn) => {
+                // Skip pending transactions and transactions without success/timestamp for display
+                if (!('success' in txn) || !('timestamp' in txn)) return null;
                 const typeInfo = txn.type
                   ? getTransactionTypeLabel(txn.type)
                   : { label: 'Transaction', color: 'bg-gray-500/10 text-gray-400 border-gray-500/20' };
+                const timestamp = txn.timestamp as string;
 
                 return (
                   <Link
@@ -94,7 +91,7 @@ export default function TransactionsPage() {
                         <div className="flex items-center gap-3 text-xs text-muted-foreground">
                           <span>Version {txn.version.toLocaleString()}</span>
                           <span>•</span>
-                          <span>{formatTimestamp(txn.timestamp)}</span>
+                          <span>{formatTimestamp(timestamp)}</span>
                         </div>
                       </div>
                       <div className="text-right flex-shrink-0">
@@ -106,7 +103,7 @@ export default function TransactionsPage() {
                           )}
                         </div>
                         <div className="text-xs text-muted-foreground">
-                          {formatTimeAgo(txn.timestamp)}
+                          {formatTimeAgo(timestamp)}
                         </div>
                       </div>
                     </div>

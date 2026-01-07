@@ -7,7 +7,9 @@
       "Bash(npx shadcn@latest add:*)",
       "Bash(pnpm add:*)",
       "WebFetch(domain:github.com)",
-      "WebFetch(domain:etherscan.io)"
+      "WebFetch(domain:etherscan.io)",
+      "Bash(cd:*)",
+      "Bash(cd /Users/vinaypallegar/Desktop/Websites/Movement\\\\ Labs/explorer-movement && pnpm build:*)"
     ],
     "deny": [],
     "ask": []

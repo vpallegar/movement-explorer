@@ -42,7 +42,7 @@ const HardCodedCoins: Record<string, CoinDescription> = {
     panoraOrderIndex: 1,
     panoraIndex: 1,
     coinGeckoId: 'movement',
-    coinMarketCapId: null,
+    coinMarketCapId: undefined,
     native: true,
     panoraUI: true,
     usdPrice: null,

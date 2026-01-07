@@ -8,6 +8,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { FileCode, Package, Eye, Loader2, Play, Wallet as WalletIcon } from 'lucide-react';
+import Link from 'next/link';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useNetwork } from '@/providers/network-provider';
 import { useWallet } from '@aptos-labs/wallet-adapter-react';
@@ -368,13 +369,13 @@ function ViewFunctionForm({
     try {
       // Prepare the view request
       const payload = {
-        function: `${address}::${moduleName}::${fn.name}`,
+        function: `${address}::${moduleName}::${fn.name}` as `${string}::${string}::${string}`,
         typeArguments: typeArgs.filter((t) => t.trim() !== ''),
         functionArguments: args.filter((a) => a.trim() !== ''),
       };
 
       // Call the view function
-      const response = await client.client.view({ payload });
+      const response = await client.view(payload);
       setResult(response);
     } catch (err: any) {
       setError(err.message || 'Failed to call view function');
@@ -574,7 +575,7 @@ function RunFunctionForm({
   moduleName: string;
   fn: any;
 }) {
-  const { connected, account, signAndSubmitTransaction, connect } = useWallet();
+  const { connected, account, signAndSubmitTransaction, wallets, connect } = useWallet();
   const [typeArgs, setTypeArgs] = useState<string[]>(
     new Array(fn.generic_type_params?.length || 0).fill('')
   );
@@ -604,7 +605,7 @@ function RunFunctionForm({
       // Prepare the transaction payload
       const payload = {
         data: {
-          function: `${address}::${moduleName}::${fn.name}`,
+          function: `${address}::${moduleName}::${fn.name}` as `${string}::${string}::${string}`,
           typeArguments: typeArgs.filter((t) => t.trim() !== ''),
           functionArguments: args.filter((a) => a.trim() !== ''),
         },
@@ -640,7 +641,17 @@ function RunFunctionForm({
                 You need to connect a wallet to run entry functions
               </p>
             </div>
-            <Button type="button" onClick={connect} variant="outline">
+            <Button
+              type="button"
+              onClick={() => {
+                const wallet = wallets?.[0];
+                if (wallet) {
+                  connect(wallet.name);
+                }
+              }}
+              variant="outline"
+              disabled={!wallets?.length}
+            >
               Connect Wallet
             </Button>
           </div>
@@ -652,7 +663,7 @@ function RunFunctionForm({
             <div className="flex-1">
               <p className="text-sm font-medium">Wallet Connected</p>
               <p className="text-xs text-muted-foreground mt-1 font-mono">
-                {account?.address}
+                {account?.address?.toString()}
               </p>
             </div>
           </div>
@@ -664,7 +675,7 @@ function RunFunctionForm({
         <div className="space-y-2">
           <p className="text-sm font-medium">Signer</p>
           <Input
-            value={account?.address || 'Not connected'}
+            value={account?.address?.toString() || 'Not connected'}
             disabled
             className="font-mono text-xs"
           />
