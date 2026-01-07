@@ -1,0 +1,106 @@
+'use client';
+
+import { useQuery } from '@tanstack/react-query';
+
+export interface MovementVerifiedToken {
+  name: string;
+  symbol: string;
+  decimals: number;
+  logoUrl?: string;
+  websiteUrl?: string;
+  coinGeckoId?: string;
+  coinMarketCapId?: string;
+  bridge?: string | null;
+}
+
+export interface CoinDescription extends MovementVerifiedToken {
+  faAddress: string;
+  panoraSymbol: string | null;
+  category: string;
+  isInPanoraTokenList: boolean;
+  isBanned: boolean;
+  panoraOrderIndex: number;
+  panoraIndex: number;
+  native: boolean;
+  panoraUI: boolean;
+  usdPrice: number | null;
+  panoraTags: string[];
+}
+
+// Hardcoded native MOVE token
+const HardCodedCoins: Record<string, CoinDescription> = {
+  '0x1::aptos_coin::AptosCoin': {
+    name: 'Movement',
+    symbol: 'MOVE',
+    decimals: 8,
+    logoUrl: '/logo_yellow.svg',
+    faAddress: '0x1::aptos_coin::AptosCoin',
+    panoraSymbol: null,
+    category: 'Native',
+    isInPanoraTokenList: true,
+    isBanned: false,
+    panoraOrderIndex: 1,
+    panoraIndex: 1,
+    coinGeckoId: 'movement',
+    coinMarketCapId: null,
+    native: true,
+    panoraUI: true,
+    usdPrice: null,
+    panoraTags: ['Native'],
+  },
+};
+
+export function useVerifiedTokens() {
+  return useQuery<Record<string, CoinDescription>>({
+    queryKey: ['verified_tokens'],
+    placeholderData: HardCodedCoins,
+    refetchOnMount: true,
+    queryFn: async () => {
+      let movementRes;
+      try {
+        movementRes = await fetch(
+          'https://raw.githubusercontent.com/movementlabsxyz/movement-tokens/refs/heads/main/tokens.json',
+        );
+      } catch (error) {
+        console.error('Failed to fetch Movement Labs verified tokens:', error);
+        return HardCodedCoins;
+      }
+
+      if (!movementRes.ok) {
+        console.error('Failed to fetch Movement Labs verified tokens');
+        return HardCodedCoins;
+      }
+
+      const movementTokens: Record<string, MovementVerifiedToken> = await movementRes.json();
+
+      const normalizedMovementTokens: Record<string, CoinDescription> = {};
+
+      // Convert MovementVerifiedToken to CoinDescription format
+      for (const [faAddress, token] of Object.entries(movementTokens)) {
+        normalizedMovementTokens[faAddress] = {
+          ...token,
+          faAddress,
+          bridge: token.bridge ?? null,
+          panoraSymbol: null,
+          category: 'Verified',
+          isInPanoraTokenList: true,
+          isBanned: false,
+          panoraOrderIndex: 5,
+          panoraIndex: 5,
+          native: false,
+          panoraUI: false,
+          usdPrice: null,
+          panoraTags: ['Verified'],
+        };
+      }
+
+      // Merge both records (repository tokens take priority over hardcoded tokens)
+      return {
+        ...HardCodedCoins,
+        ...normalizedMovementTokens,
+      };
+    },
+    staleTime: 1000 * 60 * 60, // 1 hour
+    gcTime: 1000 * 60 * 60 * 24, // 24 hours
+  });
+}

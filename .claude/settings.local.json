@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm lint:*)",
+      "WebFetch(domain:movement-design-system-docs-git-shadcn-movement-labs.vercel.app)",
+      "Bash(cd /Users/vinaypallegar/Desktop/Websites/Movement\\ Labs/explorer-movement && npx shadcn@latest add sheet:*)",
+      "Bash(npx shadcn@latest add:*)",
+      "Bash(pnpm add:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:etherscan.io)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
