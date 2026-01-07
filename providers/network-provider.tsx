@@ -1,9 +1,9 @@
 'use client';
 
-import { createContext, useContext, useState, useCallback, ReactNode, useEffect } from 'react';
+import { createContext, useContext, useState, useCallback, ReactNode, useEffect, useRef } from 'react';
 import { NetworkConfig, NETWORKS, DEFAULT_NETWORK, NetworkType } from '@/lib/config';
 import { getClient, MovementClient } from '@/lib/api/client';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 
 interface NetworkContextType {
   network: NetworkConfig;
@@ -45,28 +45,59 @@ function getInitialNetwork(): NetworkType {
 
 export function NetworkProvider({ children }: { children: ReactNode }) {
   const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
   const [currentNetworkType, setCurrentNetworkType] = useState<NetworkType>(DEFAULT_NETWORK);
   const [network, setNetwork] = useState<NetworkConfig>(NETWORKS[DEFAULT_NETWORK]);
   const [client, setClient] = useState<MovementClient>(() => getClient(NETWORKS[DEFAULT_NETWORK]));
+  // Track if we initiated the network change to avoid reacting to our own URL updates
+  const isInternalChange = useRef(false);
 
   // Initialize network on mount
   useEffect(() => {
     const initialNetwork = getInitialNetwork();
     if (initialNetwork !== DEFAULT_NETWORK) {
+      isInternalChange.current = true;
       switchNetwork(initialNetwork);
     }
   }, []);
 
-  // Watch for URL changes
+  // Watch for external URL changes (e.g., browser back/forward)
   useEffect(() => {
+    // Skip if this was triggered by our own switchNetwork call
+    if (isInternalChange.current) {
+      isInternalChange.current = false;
+      return;
+    }
+
     const networkParam = searchParams?.get('network');
     if (networkParam && (networkParam === 'mainnet' || networkParam === 'testnet' || networkParam === 'local')) {
       const networkType = networkParam as NetworkType;
       if (networkType !== currentNetworkType) {
-        switchNetwork(networkType);
+        // External URL change - update state without updating URL again
+        const newNetwork = NETWORKS[networkType];
+        setCurrentNetworkType(networkType);
+        setNetwork(newNetwork);
+        setClient(getClient(newNetwork));
+        try {
+          localStorage.setItem(NETWORK_STORAGE_KEY, networkType);
+        } catch (error) {
+          console.error('Failed to save network to localStorage:', error);
+        }
+      }
+    } else if (!networkParam && currentNetworkType !== 'mainnet') {
+      // URL has no network param, default to mainnet
+      const newNetwork = NETWORKS['mainnet'];
+      setCurrentNetworkType('mainnet');
+      setNetwork(newNetwork);
+      setClient(getClient(newNetwork));
+      try {
+        localStorage.setItem(NETWORK_STORAGE_KEY, 'mainnet');
+      } catch (error) {
+        console.error('Failed to save network to localStorage:', error);
       }
     }
-  }, [searchParams, currentNetworkType]);
+  }, [searchParams]);
 
   const switchNetwork = useCallback((networkType: NetworkType) => {
     const newNetwork = NETWORKS[networkType];
@@ -81,17 +112,17 @@ export function NetworkProvider({ children }: { children: ReactNode }) {
       console.error('Failed to save network to localStorage:', error);
     }
 
-    // Update URL without reload if not mainnet
-    if (typeof window !== 'undefined') {
-      const url = new URL(window.location.href);
-      if (networkType === 'mainnet') {
-        url.searchParams.delete('network');
-      } else {
-        url.searchParams.set('network', networkType);
-      }
-      window.history.replaceState({}, '', url.toString());
+    // Update URL using Next.js router
+    isInternalChange.current = true;
+    const params = new URLSearchParams(searchParams?.toString() || '');
+    if (networkType === 'mainnet') {
+      params.delete('network');
+    } else {
+      params.set('network', networkType);
     }
-  }, []);
+    const newUrl = params.toString() ? `${pathname}?${params.toString()}` : pathname;
+    router.replace(newUrl, { scroll: false });
+  }, [searchParams, pathname, router]);
 
   return (
     <NetworkContext.Provider value={{ network, client, switchNetwork, currentNetworkType }}>
