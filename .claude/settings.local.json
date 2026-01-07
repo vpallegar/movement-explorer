@@ -9,7 +9,9 @@
       "WebFetch(domain:github.com)",
       "WebFetch(domain:etherscan.io)",
       "Bash(cd:*)",
-      "Bash(cd /Users/vinaypallegar/Desktop/Websites/Movement\\\\ Labs/explorer-movement && pnpm build:*)"
+      "Bash(cd /Users/vinaypallegar/Desktop/Websites/Movement\\\\ Labs/explorer-movement && pnpm build:*)",
+      "Bash(pnpm install:*)",
+      "Bash(pnpm build:*)"
     ],
     "deny": [],
     "ask": []

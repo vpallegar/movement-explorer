@@ -2,6 +2,11 @@
   "name": "explorer-movement",
   "version": "0.1.0",
   "private": true,
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@movementlabsxyz/movement-design-system"
+    ]
+  },
   "scripts": {
     "dev": "next dev --webpack",
     "build": "next build --webpack",
